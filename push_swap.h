@@ -19,6 +19,7 @@ void				lstadd(t_stack **list, t_stack *elem);
 void				lstpurge(t_stack **list);
 void				lstpop(t_stack **list);
 int					lstpeek(t_stack *list);
+void				lstpush(t_stack **stack, t_stack *new);
 
 void				swap(t_stack **list);
 void				push(t_stack **to, t_stack **from);

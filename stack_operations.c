@@ -87,3 +87,23 @@ size_t lstsize(t_stack *stack)
 	}
 	return (size);
 }
+
+void	lstpush(t_stack **stack, t_stack *new)
+{
+	if (!stack)
+		return ;
+	if (!*stack)
+		*stack = new;
+	else if (!(*stack)->tail)
+	{
+		(*stack)->tail = new;
+		(*stack)->next = new;
+		new->prev = (*stack);
+	}
+	else
+	{
+		(*stack)->tail->next = new;
+		new->prev = (*stack)->tail;
+		(*stack)->tail = new;
+	}
+}
