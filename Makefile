@@ -7,17 +7,17 @@ CHK_SRCS =	checker.c					\
 
 PS_SRCS =	push_swap.c					\
 			ps_operations.c				\
+			advanced_ps_operations.c	\
 			stack_operations.c			\
 			libft/libft.a				\
 			-Ilibft/includes
 
-checker:
+c:
 	@clear
 	@gcc -g -Wall -Werror -Wextra $(CHK_SRCS) -o checker
 	@clear
 
-push:
+p:
 	@clear
 	@gcc -g -Wall -Werror -Wextra $(PS_SRCS) -o push_swap
 	@clear
-	@./push_swap

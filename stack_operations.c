@@ -39,6 +39,7 @@ void	lstpurge(t_stack **list)
 	t_stack	*iter;
 	t_stack	*temp;
 
+	iter = *list;
 	while (iter)
 	{
 		temp = iter->next;

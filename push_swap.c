@@ -1,15 +1,43 @@
 #include "push_swap.h"
 
-t_stack *get_stack(const char **argv)
+int	ps_atoi(const char **str)
 {
-	t_stack *stack;
+	long long int	res;
+	short int		sign;
+
+	while (**str && ft_isspace(**str))
+		++*str;
+	sign = 1;
+	if (**str == '-')
+	{
+		sign = -1;
+		++*str;
+	}
+	else if (**str == '+')
+		++*str;
+	res = 0;
+	while (**str && ft_isdigit(**str))
+	{
+		res = res * 10 + **str - '0';
+		++*str;
+	}
+	return (res * sign);
+}
+
+
+t_stack		*get_stack(const char **argv)
+{
+	t_stack		*stack;
+	long int	elem;
 
 	stack = NULL;
 	++argv;
 	while (*argv)
 	{
-		lstadd(&stack, lstnew(ft_atoi(*argv)));
-		++argv;
+		elem = ps_atoi(argv);
+		lstpush(&stack, lstnew(elem));
+		if (!**argv)
+			++argv;
 	}
 	return (stack);
 }
@@ -27,14 +55,15 @@ size_t lstsize(t_stack *stack)
 	return (size);
 }
 
-void final_sort(t_stack **a)
+int		final_sort(t_stack **a)
 {
+	int opers = 0;
 	t_stack *a_iter;
 	size_t a_size;
 	size_t gap_pos;
 
 	if ((*a)->value < (*a)->tail->value)
-		return ;
+		return (0);
 	a_size = lstsize(*a);
 	a_iter = *a;
 	gap_pos = 1;
@@ -46,6 +75,7 @@ void final_sort(t_stack **a)
 	if (gap_pos <= a_size / 2)
 		while (gap_pos)
 		{
+			++opers;
 			rotate(a, "ra\n");
 			--gap_pos;
 		}
@@ -54,10 +84,12 @@ void final_sort(t_stack **a)
 		gap_pos = a_size - gap_pos;
 		while (gap_pos)
 		{
+			++opers;
 			rev_rotate(a, "rra\n");
 			--gap_pos;
 		}
 	}
+	return (opers);
 }
 
 int is_sorted(t_stack *a, t_stack *b)
@@ -159,7 +191,7 @@ void find_best_spins(t_stack *a, t_stack *b, int *spins_a, int *spins_b)
 	}
 }
 
-void	main_sort(t_stack **a, t_stack **b)
+void		main_sort(t_stack **a, t_stack **b)
 {
 	int spin_a;
 	int spin_b;
@@ -167,6 +199,27 @@ void	main_sort(t_stack **a, t_stack **b)
 	while (!is_sorted(*a, *b))
 	{
 		find_best_spins(*a, *b, &spin_a, &spin_b);
+		// if ((spin_a < 0 && spin_b < 0) || (spin_a > 0 && spin_b > 0))
+		// {
+		// 	while (spin_a && spin_b)
+		// 	{
+		// 		spin_a > 0 ? rotate_both(a, b) : rev_rotate_both(a, b);
+		// 		spin_a -= spin_a > 0 ? 1 : -1;
+		// 		spin_b -= spin_b > 0 ? 1 : -1;
+		// 	}
+		// }
+		while (spin_a < 0 && spin_b < 0)
+		{
+			rev_rotate_both(a, b, "rrr\n");
+			++spin_a;
+			++spin_b;
+		}
+		while (spin_a > 0 && spin_b > 0)
+		{
+			rotate_both(a, b, "rr\n");
+			--spin_a;
+			--spin_b;
+		}
 		while (spin_a)
 		{
 			spin_a > 0 ? rotate(a, "ra\n") : rev_rotate(a, "rra\n");
@@ -179,6 +232,7 @@ void	main_sort(t_stack **a, t_stack **b)
 		}
 		push(a, b, "pa\n");
 	}
+	return ;
 }
 
 void	sort(t_stack **a)
@@ -201,12 +255,12 @@ int main(int argc, const char **argv)
 
 	a = get_stack(argv);
 	sort(&a);
-	while (a)
-	{
-		printf("%d  ", a->value);
-		a = a->next;
-	}
-	printf("\n");
+	// while (a)
+	// {
+	// 	printf("%d  ", a->value);
+	// 	a = a->next;
+	// }
+	// printf("\n");
 
 
 

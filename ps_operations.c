@@ -10,7 +10,7 @@ void	swap(t_stack **list, char *msg)
 	(*list)->value = (*list)->next->value;
 	(*list)->next->value = temp;
 	if (msg)
-		write(0, msg, 3);
+		write(1, msg, 3);
 }
 
 void	push(t_stack **to, t_stack **from, char *msg)
@@ -22,7 +22,7 @@ void	push(t_stack **to, t_stack **from, char *msg)
 	lstadd(to, lstnew((*from)->value));
 	lstpop(from);
 	if (msg)
-		write(0, msg, 3);
+		write(1, msg, 3);
 }
 
 void	rotate(t_stack **list, char *msg)
@@ -36,7 +36,7 @@ void	rotate(t_stack **list, char *msg)
 	(*list) = (*list)->next;
 	(*list)->tail->next = NULL;
 	if (msg)
-		write(0, msg, 3);
+		write(1, msg, 3);
 }
 
 void	rev_rotate(t_stack **list, char *msg)
@@ -50,5 +50,5 @@ void	rev_rotate(t_stack **list, char *msg)
 	(*list)->tail->next = (*list);
 	*list = (*list)->tail;
 	if (msg)
-		write(0, msg, 4);
+		write(1, msg, 4);
 }
