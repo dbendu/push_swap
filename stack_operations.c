@@ -68,26 +68,6 @@ void	lstpop(t_stack **list)
 	}
 }
 
-int		lstpeek(t_stack *list)
-{
-	if (!list)
-		return (0);
-	return (list->value);
-}
-
-size_t lstsize(t_stack *stack)
-{
-	size_t size;
-
-	size = 0;
-	while (stack)
-	{
-		++size;
-		stack = stack->next;
-	}
-	return (size);
-}
-
 void	lstpush(t_stack **stack, t_stack *new)
 {
 	if (!stack)

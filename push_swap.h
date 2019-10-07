@@ -15,14 +15,15 @@ typedef struct		s_stacks
 }					t_stacks;
 
 t_stack				*lstnew(int value);
-void				lstadd(t_stack **list, t_stack *elem);
 void				lstpurge(t_stack **list);
 void				lstpop(t_stack **list);
-int					lstpeek(t_stack *list);
+void				lstadd(t_stack **list, t_stack *elem);
 void				lstpush(t_stack **stack, t_stack *new);
 
-void				swap(t_stack **list);
-void				push(t_stack **to, t_stack **from);
-void				rotate(t_stack **list);
-void				rev_rotate(t_stack **list);
-size_t				lstsize(t_stack *stack);
+void				swap(t_stack **list, char *msg);
+void				push(t_stack **to, t_stack **from, char *msg);
+void				rotate(t_stack **list, char *msg);
+void				rev_rotate(t_stack **list, char *msg);
+void				rotate_both(t_stack **a, t_stack **b);
+void				rev_rotate_both(t_stack **a, t_stack **b);
+void				swap_both(t_stack **a, t_stack **b);

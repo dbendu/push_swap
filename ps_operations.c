@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-void swap(t_stack **list)
+void	swap(t_stack **list, char *msg)
 {
 	int	temp;
 
@@ -9,19 +9,23 @@ void swap(t_stack **list)
 	temp = (*list)->value;
 	(*list)->value = (*list)->next->value;
 	(*list)->next->value = temp;
+	if (msg)
+		write(0, msg, 3);
 }
 
-void push(t_stack **to, t_stack **from)
+void	push(t_stack **to, t_stack **from, char *msg)
 {
 	if (!to || !from || !*from)
 		return ;
 	if ((*from)->next)
 		(*from)->next->tail = (*from)->tail;
-	lstadd(to, lstnew(lstpeek(*from)));
+	lstadd(to, lstnew((*from)->value));
 	lstpop(from);
+	if (msg)
+		write(0, msg, 3);
 }
 
-void rotate(t_stack **list)
+void	rotate(t_stack **list, char *msg)
 {
 	if (!list || !*list || !(*list)->next)
 		return ;
@@ -31,9 +35,11 @@ void rotate(t_stack **list)
 	(*list)->prev = (*list)->tail;
 	(*list) = (*list)->next;
 	(*list)->tail->next = NULL;
+	if (msg)
+		write(0, msg, 3);
 }
 
-void rev_rotate(t_stack **list)
+void	rev_rotate(t_stack **list, char *msg)
 {
 	if (!list || !*list || !(*list)->next)
 		return ;
@@ -43,4 +49,6 @@ void rev_rotate(t_stack **list)
 	(*list)->tail->prev = NULL;
 	(*list)->tail->next = (*list);
 	*list = (*list)->tail;
+	if (msg)
+		write(0, msg, 4);
 }
