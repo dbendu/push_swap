@@ -199,15 +199,6 @@ void		main_sort(t_stack **a, t_stack **b)
 	while (!is_sorted(*a, *b))
 	{
 		find_best_spins(*a, *b, &spin_a, &spin_b);
-		// if ((spin_a < 0 && spin_b < 0) || (spin_a > 0 && spin_b > 0))
-		// {
-		// 	while (spin_a && spin_b)
-		// 	{
-		// 		spin_a > 0 ? rotate_both(a, b) : rev_rotate_both(a, b);
-		// 		spin_a -= spin_a > 0 ? 1 : -1;
-		// 		spin_b -= spin_b > 0 ? 1 : -1;
-		// 	}
-		// }
 		while (spin_a < 0 && spin_b < 0)
 		{
 			rev_rotate_both(a, b, "rrr\n");
@@ -235,11 +226,81 @@ void		main_sort(t_stack **a, t_stack **b)
 	return ;
 }
 
+void sort_array(int *arr, size_t size)
+{
+	size_t	min;
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	while (i < size)
+	{
+		min = i;
+		j = i + 1;
+		while (j < size)
+		{
+			if (arr[j] < arr[min])
+				min = j;
+			++j;
+		}
+		if (i != min)
+		{
+			int temp = arr[i];
+			arr[i] = arr[min];
+			arr[min] = temp;
+		}
+		++i;
+	}
+}
+
+int *get_arr(t_stack *stack, size_t stack_size)
+{
+	int *arr;
+	size_t pos;
+
+	arr = (int*)malloc(sizeof(int) * stack_size);
+	pos = 0;
+	while (stack)
+	{
+		arr[pos] = stack->value;
+		stack = stack->next;
+		++pos;
+	}
+	return (arr);
+}
+
+void pre_sorting(t_stack **a, t_stack **b)
+{
+	size_t a_size;
+	int		*arr;
+
+	a_size = lstsize(*a);
+	arr = get_arr(*a, a_size);
+	sort_array(arr, a_size);
+	*b = NULL;
+	while (lstsize(*b) < a_size / 3)
+	{
+		if ((*a)->value < arr[a_size / 3])
+			push(b, a, "pb\n");
+		else
+			rotate(a, "ra\n");
+	}
+	while (lstsize(*b) < a_size / 3 * 2)
+	{
+		if ((*a)->value < arr[a_size / 3 * 2])
+			push(b, a, "pb\n");
+		else
+			rotate(a, "ra\n");
+	}
+}
+
 void	sort(t_stack **a)
 {
 	t_stack *b;
 
 	b = NULL;
+	if (lstsize(*a) > 200)
+		pre_sorting(a, &b);
 	primary_sort(a, &b);
 	main_sort(a, &b);
 	final_sort(a);
@@ -251,18 +312,7 @@ int main(int argc, const char **argv)
 
 	if (argc == 1)
 		return (0);
-
-
 	a = get_stack(argv);
 	sort(&a);
-	// while (a)
-	// {
-	// 	printf("%d  ", a->value);
-	// 	a = a->next;
-	// }
-	// printf("\n");
-
-
-
 	return (0);
 }

@@ -100,12 +100,6 @@ int			main(int argc, const char **argv)
 	a = get_stack(argv);
 	b = NULL;
 	printf("%d\n", sort(&a, &b));
-	t_stack * iter = a;
-	while (iter)
-	{
-		printf("%3d ", iter->value);
-		iter = iter->next;
-	}
 	if (is_sorted(a, b))
 		write(1, "OK\n", 3);
 	else
