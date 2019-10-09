@@ -55,6 +55,14 @@ static int	is_sorted(t_stack *a, t_stack *b)
 	return (1);
 }
 
+/*
+pb
+sa
+rra
+pa
+ra
+*/
+
 int			sort(t_stack **a, t_stack **b)
 {
 	int		opers;
@@ -90,6 +98,34 @@ int			sort(t_stack **a, t_stack **b)
 	return (opers);
 }
 
+int is_input_valid(const char **argv)
+{
+	const char	*iter;
+	__int128_t	value;
+
+	++argv;
+	while (*argv)
+	{
+		
+		iter = *argv;
+		while (*iter)
+		{
+			if (!(ft_isdigit(*iter) || ft_isspace(*iter) ||
+				((*iter == '-' || *iter == '+') && (!ft_isdigit(*iter) || (iter != *argv && ft_isdigit(iter[-1]))))))
+				return (0);
+			while (*iter && ft_isspace(*iter))
+				++iter;
+			value = ft_atoi(iter);
+			if (value > MAX_INT || value < MIN_INT)
+				return (0);
+			while (*iter && (ft_isdigit(*iter)))
+				++iter;
+		}
+		++argv;
+	}
+	return (1);
+}
+
 int			main(int argc, const char **argv)
 {
 	t_stack	*a;
@@ -97,14 +133,20 @@ int			main(int argc, const char **argv)
 
 	if (!argv[1] || !argc)
 		return (0);
-	a = get_stack(argv);
-	b = NULL;
-	printf("%d\n", sort(&a, &b));
-	if (is_sorted(a, b))
-		write(1, "OK\n", 3);
-	else
-		write(1, "KO\n", 3);
-	lstpurge(&a);
-	lstpurge(&b);
+	
+	// write(1, "ok2\n", 4);
+	if (is_input_valid(argv))
+	{
+		a = get_stack(argv);
+		b = NULL;
+		printf("%d\n", sort(&a, &b));
+		// sort(&a, &b);
+		if (is_sorted(a, b))
+			write(1, "OK\n", 3);
+		else
+			write(1, "KO\n", 3);
+		lstpurge(&a);
+		lstpurge(&b);
+	}
 	return (0);
 }

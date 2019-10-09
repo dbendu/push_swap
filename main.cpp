@@ -1,43 +1,29 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <ctime>
+// #include <random>
 
-void sort_array(int *arr, size_t size)
+using namespace std;
+
+ptrdiff_t myrandom (ptrdiff_t i) { return rand()%i;}
+ptrdiff_t (*p_myrandom)(ptrdiff_t) = myrandom;
+
+int main(int argc, const char **argv)
 {
-	size_t	min;
-	size_t	i;
-	size_t	j;
+	int size;
 
-	i = 0;
-	while (i < size)
+	srand(time(0));
+	if (argc == 2 && (size = atoi(argv[1])) > 0)
 	{
-		min = i;
-		j = i + 1;
-		while (j < size)
-		{
-			if (arr[j] < arr[min])
-				min = j;
-			++j;
-		}
-		if (i != min)
-		{
-			int temp = arr[i];
-			arr[i] = arr[min];
-			arr[min] = temp;
-		}
-		++i;
+		vector<int> v;
+		for (int i = 0; i < size; ++i)
+			v.push_back(i);
+		random_shuffle(v.begin(), v.end(), p_myrandom);
+		for (int i = 0; i < size; ++i)
+			cout << v[i] << ' ';
 	}
-}
-
-#define SZ 300
-
-int main(void)
-{
-	std::vector<int> a;
-	for (int i = 0; i < SZ; ++i)
-		a.push_back(i);
-	std::random_shuffle(a.begin(), a.end());
-	for (int i = 0; i < SZ; ++i)
-		std::cout << a[i] << ' ';
-	std::cout << std::endl;
+	else
+		cout << "Error\n" << endl;
 	return (0);
 }

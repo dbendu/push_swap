@@ -182,6 +182,7 @@ void find_best_spins(t_stack *a, t_stack *b, int *spins_a, int *spins_b)
 			}
 		}
 		if (*spins_a == MAX_INT || ft_abs(a_cur) + ft_abs(b_cur) < ft_abs(*spins_a) + ft_abs(*spins_b))
+			// (ft_abs(a_cur) + ft_abs(b_cur) == ft_abs(*spins_a) + ft_abs(*spins_b) && ft_abs(a_cur) < ft_abs(b_cur)))
 		{
 			*spins_a = a_cur;
 			*spins_b = b_cur;
@@ -306,13 +307,47 @@ void	sort(t_stack **a)
 	final_sort(a);
 }
 
+int is_input_valid(const char **argv)
+{
+	const char	*iter;
+	__int128_t	value;
+
+	++argv;
+	while (*argv)
+	{
+		
+		iter = *argv;
+		while (*iter)
+		{
+			if (!(ft_isdigit(*iter) || ft_isspace(*iter) ||
+				((*iter == '-' || *iter == '+') && (!ft_isdigit(*iter) || (iter != *argv && ft_isdigit(iter[-1]))))))
+				return (0);
+			while (*iter && ft_isspace(*iter))
+				++iter;
+			value = ft_atoi(iter);
+			if (value > MAX_INT || value < MIN_INT)
+				return (0);
+			while (*iter && (ft_isdigit(*iter)))
+				++iter;
+		}
+		++argv;
+	}
+	return (1);
+}
+
 int main(int argc, const char **argv)
 {
 	t_stack *a;
 
 	if (argc == 1)
 		return (0);
-	a = get_stack(argv);
-	sort(&a);
+	if (is_input_valid(argv))
+	{
+		a = get_stack(argv);
+		sort(&a);
+	}
+	else
+		write(2, "Error\n", 6);
+	// write(1, "ok1\n", 4);
 	return (0);
 }
