@@ -3,12 +3,14 @@ CHK_SRCS =	checker.c					\
 			advanced_ps_operations.c	\
 			stack_operations.c			\
 			libft/libft.a				\
+			check_input.c				\
 			-Ilibft/includes
 
 PS_SRCS =	push_swap.c					\
 			ps_operations.c				\
 			advanced_ps_operations.c	\
 			stack_operations.c			\
+			check_input.c				\
 			libft/libft.a				\
 			-Ilibft/includes
 

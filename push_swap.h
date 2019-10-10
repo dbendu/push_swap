@@ -27,3 +27,14 @@ void				rev_rotate(t_stack **list, char *msg);
 void				rotate_both(t_stack **a, t_stack **b, char *msg);
 void				rev_rotate_both(t_stack **a, t_stack **b, char *msg);
 void				swap_both(t_stack **a, t_stack **b, char *msg);
+
+
+
+int ps_is_sorted(t_stack *a, t_stack *b);
+t_stack		*get_stack(const char **argv);
+int is_repeats(const t_stack *a);
+int is_input_valid(const char **argv);
+int is_nums(const char **argv);
+void sort_array(int *arr, size_t size);
+int *get_arr(const t_stack *stack, size_t stack_size);
+size_t lstsize(const t_stack *stack);

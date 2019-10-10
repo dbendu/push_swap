@@ -1,59 +1,7 @@
 #include "push_swap.h"
 
-int	ps_atoi(const char **str)
-{
-	long long int	res;
-	short int		sign;
-
-	while (**str && ft_isspace(**str))
-		++*str;
-	sign = 1;
-	if (**str == '-')
-	{
-		sign = -1;
-		++*str;
-	}
-	else if (**str == '+')
-		++*str;
-	res = 0;
-	while (**str && ft_isdigit(**str))
-	{
-		res = res * 10 + **str - '0';
-		++*str;
-	}
-	return (res * sign);
-}
 
 
-t_stack		*get_stack(const char **argv)
-{
-	t_stack		*stack;
-	long int	elem;
-
-	stack = NULL;
-	++argv;
-	while (*argv)
-	{
-		elem = ps_atoi(argv);
-		lstpush(&stack, lstnew(elem));
-		if (!**argv)
-			++argv;
-	}
-	return (stack);
-}
-
-size_t lstsize(t_stack *stack)
-{
-	size_t size;
-
-	size = 0;
-	while (stack)
-	{
-		++size;
-		stack = stack->next;
-	}
-	return (size);
-}
 
 int		final_sort(t_stack **a)
 {
@@ -92,30 +40,7 @@ int		final_sort(t_stack **a)
 	return (opers);
 }
 
-int is_sorted(t_stack *a, t_stack *b)
-{
-	t_stack	*a_iter;
-	int		is_gap;
 
-	if (b)
-		return (0);
-	is_gap = 0;
-	a_iter = a;
-	while (a_iter->next)
-	{
-		if (a_iter->value > a_iter->next->value)
-		{
-			if (is_gap)
-				return (0);
-			else
-				is_gap = 1;
-		}
-		a_iter = a_iter->next;
-	}
-	if (is_gap && a->value < a_iter->value)
-		return (0);
-	return (1);
-}
 
 
 
@@ -127,12 +52,12 @@ void	primary_sort(t_stack **ast, t_stack **bst)
 	int		a_size;
 
 	a_size = lstsize(*ast);
-	while (a_size > 3 && !is_sorted(*ast, NULL))
+	while (a_size > 3 && !ps_is_sorted(*ast, NULL))
 	{
 		push(bst, ast, "pb\n");
 		--a_size;
 	}
-	if (a_size < 3 || is_sorted(*ast, NULL))
+	if (a_size < 3 || ps_is_sorted(*ast, NULL))
 		return ;
 	a = (*ast)->value;
 	b = (*ast)->next->value;
@@ -197,7 +122,7 @@ void		main_sort(t_stack **a, t_stack **b)
 	int spin_a;
 	int spin_b;
 
-	while (!is_sorted(*a, *b))
+	while (!ps_is_sorted(*a, *b))
 	{
 		find_best_spins(*a, *b, &spin_a, &spin_b);
 		while (spin_a < 0 && spin_b < 0)
@@ -227,48 +152,7 @@ void		main_sort(t_stack **a, t_stack **b)
 	return ;
 }
 
-void sort_array(int *arr, size_t size)
-{
-	size_t	min;
-	size_t	i;
-	size_t	j;
 
-	i = 0;
-	while (i < size)
-	{
-		min = i;
-		j = i + 1;
-		while (j < size)
-		{
-			if (arr[j] < arr[min])
-				min = j;
-			++j;
-		}
-		if (i != min)
-		{
-			int temp = arr[i];
-			arr[i] = arr[min];
-			arr[min] = temp;
-		}
-		++i;
-	}
-}
-
-int *get_arr(t_stack *stack, size_t stack_size)
-{
-	int *arr;
-	size_t pos;
-
-	arr = (int*)malloc(sizeof(int) * stack_size);
-	pos = 0;
-	while (stack)
-	{
-		arr[pos] = stack->value;
-		stack = stack->next;
-		++pos;
-	}
-	return (arr);
-}
 
 void pre_sorting(t_stack **a, t_stack **b)
 {
@@ -300,40 +184,14 @@ void	sort(t_stack **a)
 	t_stack *b;
 
 	b = NULL;
-	if (lstsize(*a) > 200)
+	if (lstsize(*a) > 150)
 		pre_sorting(a, &b);
 	primary_sort(a, &b);
 	main_sort(a, &b);
 	final_sort(a);
 }
 
-int is_input_valid(const char **argv)
-{
-	const char	*iter;
-	__int128_t	value;
 
-	++argv;
-	while (*argv)
-	{
-		
-		iter = *argv;
-		while (*iter)
-		{
-			if (!(ft_isdigit(*iter) || ft_isspace(*iter) ||
-				((*iter == '-' || *iter == '+') && (!ft_isdigit(*iter) || (iter != *argv && ft_isdigit(iter[-1]))))))
-				return (0);
-			while (*iter && ft_isspace(*iter))
-				++iter;
-			value = ft_atoi(iter);
-			if (value > MAX_INT || value < MIN_INT)
-				return (0);
-			while (*iter && (ft_isdigit(*iter)))
-				++iter;
-		}
-		++argv;
-	}
-	return (1);
-}
 
 int main(int argc, const char **argv)
 {
@@ -343,11 +201,14 @@ int main(int argc, const char **argv)
 		return (0);
 	if (is_input_valid(argv))
 	{
-		a = get_stack(argv);
-		sort(&a);
+		if (is_nums(argv))
+		{
+			a = get_stack(argv);
+			if (!is_repeats(a))
+				sort(&a);
+		}
 	}
 	else
 		write(2, "Error\n", 6);
-	// write(1, "ok1\n", 4);
 	return (0);
 }

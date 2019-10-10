@@ -1,76 +1,14 @@
 #include "push_swap.h"
 
-int	ps_atoi(const char **str)
+static int	sort(t_stack **a, t_stack **b)
 {
-	long long int	res;
-	short int		sign;
-
-	while (**str && ft_isspace(**str))
-		++*str;
-	sign = 1;
-	if (**str == '-')
-	{
-		sign = -1;
-		++*str;
-	}
-	else if (**str == '+')
-		++*str;
-	res = 0;
-	while (**str && ft_isdigit(**str))
-	{
-		res = res * 10 + **str - '0';
-		++*str;
-	}
-	return (res * sign);
-}
-
-
-t_stack		*get_stack(const char **argv)
-{
-	t_stack		*stack;
-	long int	elem;
-
-	stack = NULL;
-	++argv;
-	while (*argv)
-	{
-		elem = ps_atoi(argv);
-		lstpush(&stack, lstnew(elem));
-		if (!**argv)
-			++argv;
-	}
-	return (stack);
-}
-
-static int	is_sorted(t_stack *a, t_stack *b)
-{
-	if (b)
-		return (0);
-	while (a->next)
-	{
-		if (a->value > a->next->value)
-			return (0);
-		a = a->next;
-	}
-	return (1);
-}
-
-/*
-pb
-sa
-rra
-pa
-ra
-*/
-
-int			sort(t_stack **a, t_stack **b)
-{
-	int		opers;
+	int		is_cmd;
 	char	*str;
 
-	opers = 0;
+	is_cmd = 0;
 	while (get_next_line(0, &str) == 1)
 	{
+		is_cmd = 1;
 		if (!ft_strcmp(str, "sa"))
 			swap(a, NULL);
 		else if (!ft_strcmp(str, "sb"))
@@ -93,35 +31,53 @@ int			sort(t_stack **a, t_stack **b)
 			rev_rotate(b, NULL);
 		else if (!ft_strcmp(str, "rrr"))
 			rev_rotate_both(a, b, NULL);
-		++opers;
 	}
-	return (opers);
+	return (is_cmd);
 }
 
-int is_input_valid(const char **argv)
-{
-	const char	*iter;
-	__int128_t	value;
+// static int	sort(t_stack **a, t_stack **b)
+// {
+// 	int		is_cmd;
+// 	char	*str;
 
-	++argv;
-	while (*argv)
+// 	is_cmd = 0;
+// 	while (get_next_line(0, &str) == 1)
+// 	{
+// 		is_cmd = 1;
+// 		if (!ft_strcmp(str, "ss"))
+// 			swap_both(a, b, NULL);
+// 		else if (*str == 's')
+// 			str[1] == 'a' ? swap(a, NULL) : swap(b, NULL);
+// 		else if (*str == 'p')
+// 			str[1] == 'a' ? push(a, b, NULL) : push(b, a, NULL);
+// 		else if (!ft_strcmp(str, "rrr"))
+// 			rotate_both(a, b, NULL);
+// 		else if (*str == 'r' && str[1] == 'r')
+// 			str[2] == 'a' ? rev_rotate(a, NULL) : rev_rotate(b, NULL);
+// 		else if (!ft_strcmp(str, "rr"))
+// 			rev_rotate_both(a, b, NULL);
+// 		else if (*str == 'r')
+// 			str[1] == 'a' ? rotate(a, NULL) : rotate(b, NULL);
+
+
+
+
+
+// 	}
+// 	return (is_cmd);
+// }
+
+
+
+static int	is_sorted(t_stack *a, t_stack *b)
+{
+	if (b)
+		return (0);
+	while (a->next)
 	{
-		
-		iter = *argv;
-		while (*iter)
-		{
-			if (!(ft_isdigit(*iter) || ft_isspace(*iter) ||
-				((*iter == '-' || *iter == '+') && (!ft_isdigit(*iter) || (iter != *argv && ft_isdigit(iter[-1]))))))
-				return (0);
-			while (*iter && ft_isspace(*iter))
-				++iter;
-			value = ft_atoi(iter);
-			if (value > MAX_INT || value < MIN_INT)
-				return (0);
-			while (*iter && (ft_isdigit(*iter)))
-				++iter;
-		}
-		++argv;
+		if (a->value > a->next->value)
+			return (0);
+		a = a->next;
 	}
 	return (1);
 }
@@ -133,20 +89,20 @@ int			main(int argc, const char **argv)
 
 	if (!argv[1] || !argc)
 		return (0);
-	
-	// write(1, "ok2\n", 4);
-	if (is_input_valid(argv))
+	if (!is_input_valid(argv) || !is_nums(argv))
+		return (0);
+	a = get_stack(argv);
+	if (is_repeats(a))
 	{
-		a = get_stack(argv);
-		b = NULL;
-		printf("%d\n", sort(&a, &b));
-		// sort(&a, &b);
-		if (is_sorted(a, b))
-			write(1, "OK\n", 3);
-		else
-			write(1, "KO\n", 3);
 		lstpurge(&a);
-		lstpurge(&b);
+		return (0);
 	}
+	b = NULL;
+	if (sort(&a, &b))
+		write(1, is_sorted(a, b) ? "OK\n" : "KO\n", 3);
+	else if (!is_sorted(a, b))
+		write(2, "Error\n", 6);
+	lstpurge(&a);
+	lstpurge(&b);
 	return (0);
 }
