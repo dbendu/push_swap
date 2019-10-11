@@ -38,3 +38,8 @@ int is_nums(const char **argv);
 void sort_array(int *arr, size_t size);
 int *get_arr(const t_stack *stack, size_t stack_size);
 size_t lstsize(const t_stack *stack);
+
+
+void	pre_sorting(t_stack **a, t_stack **b);
+void	final_sort(t_stack **a);
+void	primary_sort(t_stack **a, t_stack **b);

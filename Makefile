@@ -7,6 +7,7 @@ CHK_SRCS =	checker.c					\
 			-Ilibft/includes
 
 PS_SRCS =	push_swap.c					\
+			sort.c						\
 			ps_operations.c				\
 			advanced_ps_operations.c	\
 			stack_operations.c			\

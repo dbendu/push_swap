@@ -3,71 +3,6 @@
 
 
 
-int		final_sort(t_stack **a)
-{
-	int opers = 0;
-	t_stack *a_iter;
-	size_t a_size;
-	size_t gap_pos;
-
-	if ((*a)->value < (*a)->tail->value)
-		return (0);
-	a_size = lstsize(*a);
-	a_iter = *a;
-	gap_pos = 1;
-	while (a_iter->next && a_iter->value < a_iter->next->value)
-	{
-		++gap_pos;
-		a_iter = a_iter->next;
-	}
-	if (gap_pos <= a_size / 2)
-		while (gap_pos)
-		{
-			++opers;
-			rotate(a, "ra\n");
-			--gap_pos;
-		}
-	else
-	{
-		gap_pos = a_size - gap_pos;
-		while (gap_pos)
-		{
-			++opers;
-			rev_rotate(a, "rra\n");
-			--gap_pos;
-		}
-	}
-	return (opers);
-}
-
-
-
-
-
-void	primary_sort(t_stack **ast, t_stack **bst)
-{
-	int		a;
-	int		b;
-	int		c;
-	int		a_size;
-
-	a_size = lstsize(*ast);
-	while (a_size > 3 && !ps_is_sorted(*ast, NULL))
-	{
-		push(bst, ast, "pb\n");
-		--a_size;
-	}
-	if (a_size < 3 || ps_is_sorted(*ast, NULL))
-		return ;
-	a = (*ast)->value;
-	b = (*ast)->next->value;
-	c = (*ast)->next->next->value;
-	if ((a < b && a < c && b > c) ||
-		(a > b && a < c && b < c) ||
-		(a > b && a > c && b > c))
-		swap(ast, "sa\n");
-	return ;
-}
 
 void find_best_spins(t_stack *a, t_stack *b, int *spins_a, int *spins_b)
 {
@@ -153,30 +88,7 @@ void		main_sort(t_stack **a, t_stack **b)
 
 
 
-void pre_sorting(t_stack **a, t_stack **b)
-{
-	size_t a_size;
-	int		*arr;
 
-	a_size = lstsize(*a);
-	arr = get_arr(*a, a_size);
-	sort_array(arr, a_size);
-	*b = NULL;
-	while (lstsize(*b) < a_size / 3)
-	{
-		if ((*a)->value < arr[a_size / 3])
-			push(b, a, "pb\n");
-		else
-			rotate(a, "ra\n");
-	}
-	while (lstsize(*b) < a_size / 3 * 2)
-	{
-		if ((*a)->value < arr[a_size / 3 * 2])
-			push(b, a, "pb\n");
-		else
-			rotate(a, "ra\n");
-	}
-}
 
 void	sort(t_stack **a)
 {
