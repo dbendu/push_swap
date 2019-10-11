@@ -67,39 +67,47 @@ int is_repeats(const t_stack *a)
 	return (0);
 }
 
-int is_input_valid(const char **argv)
+int	check_symbols(const char *str)
 {
-	const char	**iter;
-	const char	*str;
+	const char	*str_begin;
 	__int128_t	value;
 
-	iter = argv + 1;
-	while (*iter)
+	str_begin = str;
+	while (*str)
 	{
-		str = *iter;
-		while (*str)
+		if (!ft_isdigit(*str) && *str != '-' &&
+			!ft_isspace(*str) && *str != '+')
+			return (0);
+		if ((*str == '-' || *str == '+') &&
+			(!ft_isdigit(str[1]) ||
+			(str != str_begin && !ft_isspace(str[-1]))))
+			return (0);
+		if (ft_isdigit(*str))
 		{
-			if (!ft_isdigit(*str) && *str != '-' &&
-				!ft_isspace(*str) && *str != '+')
+			value = ft_atoi(str);
+			if (value > MAX_INT || value < MIN_INT)
 				return (0);
-			if ((*str == '-' || *str == '+') &&
-				(!ft_isdigit(str[1]) || (str != *iter && !ft_isspace(str[-1]))))
-				return (0);
-			if (ft_isdigit(*str))
-			{
-				value = ft_atoi(str);
-				if (value > MAX_INT || value < MIN_INT)
-					return (0);
-				while (ft_isdigit(str[1]))
-					++str;
-			}
-			++str;
+			while (ft_isdigit(str[1]))
+				++str;
 		}
-		++iter;
+		++str;
 	}
 	return (1);
 }
 
+int is_input_valid(const char **argv)
+{
+	const char	**iter;
+
+	iter = argv + 1;
+	while (*iter)
+	{
+		if (!check_symbols(*iter))
+			return (0);
+		++iter;
+	}
+	return (1);
+}
 
 int is_nums(const char **argv)
 {

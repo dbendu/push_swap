@@ -43,3 +43,4 @@ size_t lstsize(const t_stack *stack);
 void	pre_sorting(t_stack **a, t_stack **b);
 void	final_sort(t_stack **a);
 void	primary_sort(t_stack **a, t_stack **b);
+void	main_sort(t_stack **a, t_stack **b);

@@ -8,7 +8,7 @@ static int	sort(t_stack **a, t_stack **b)
 	is_cmd = 0;
 	while (get_next_line(0, &str) == 1)
 	{
-		is_cmd = 1;
+		is_cmd += 1;
 		if (!ft_strcmp(str, "rrr"))
 			rev_rotate_both(a, b, NULL);
 		else if (!ft_strcmp(str, "rr"))
@@ -56,7 +56,7 @@ int			main(int argc, const char **argv)
 		return (0);
 	}
 	b = NULL;
-	if (sort(&a, &b))
+	if (printf("%d\n", sort(&a, &b)))
 		write(1, is_sorted(a, b) ? "OK\n" : "KO\n", 3);
 	else if (!is_sorted(a, b))
 		write(2, "Error\n", 6);

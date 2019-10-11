@@ -51,45 +51,6 @@ void find_best_spins(t_stack *a, t_stack *b, int *spins_a, int *spins_b)
 	}
 }
 
-void		main_sort(t_stack **a, t_stack **b)
-{
-	int spin_a;
-	int spin_b;
-
-	while (!ps_is_sorted(*a, *b))
-	{
-		find_best_spins(*a, *b, &spin_a, &spin_b);
-		while (spin_a < 0 && spin_b < 0)
-		{
-			rev_rotate_both(a, b, "rrr\n");
-			++spin_a;
-			++spin_b;
-		}
-		while (spin_a > 0 && spin_b > 0)
-		{
-			rotate_both(a, b, "rr\n");
-			--spin_a;
-			--spin_b;
-		}
-		while (spin_a)
-		{
-			spin_a > 0 ? rotate(a, "ra\n") : rev_rotate(a, "rra\n");
-			spin_a += spin_a > 0 ? -1 : 1;
-		}
-		while (spin_b)
-		{
-			spin_b > 0 ? rotate(b, "rb\n") : rev_rotate(b, "rrb\n");
-			spin_b += spin_b > 0 ? -1 : 1;
-		}
-		push(a, b, "pa\n");
-	}
-	return ;
-}
-
-
-
-
-
 void	sort(t_stack **a)
 {
 	t_stack *b;

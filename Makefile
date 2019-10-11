@@ -18,12 +18,12 @@ PS_SRCS =	push_swap.c					\
 c:
 	@clear
 	@gcc -g -Wall -Werror -Wextra $(CHK_SRCS) -o checker
-	@clear
+#	@clear
 
 p:
 	@clear
 	@gcc -g -Wall -Werror -Wextra $(PS_SRCS) -o push_swap
-	@clear
+#	@clear
 
 
 
