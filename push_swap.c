@@ -107,7 +107,6 @@ void find_best_spins(t_stack *a, t_stack *b, int *spins_a, int *spins_b)
 			}
 		}
 		if (*spins_a == MAX_INT || ft_abs(a_cur) + ft_abs(b_cur) < ft_abs(*spins_a) + ft_abs(*spins_b))
-			// (ft_abs(a_cur) + ft_abs(b_cur) == ft_abs(*spins_a) + ft_abs(*spins_b) && ft_abs(a_cur) < ft_abs(b_cur)))
 		{
 			*spins_a = a_cur;
 			*spins_b = b_cur;
@@ -191,8 +190,6 @@ void	sort(t_stack **a)
 	final_sort(a);
 }
 
-
-
 int main(int argc, const char **argv)
 {
 	t_stack *a;
@@ -204,11 +201,12 @@ int main(int argc, const char **argv)
 		if (is_nums(argv))
 		{
 			a = get_stack(argv);
-			if (!is_repeats(a))
-				sort(&a);
+			if (is_repeats(a))
+				error(2, "Error", 0);
+			sort(&a);
 		}
 	}
 	else
-		write(2, "Error\n", 6);
+		error(2, "Error\n", 0);
 	return (0);
 }

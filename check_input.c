@@ -55,13 +55,7 @@ int is_repeats(const t_stack *a)
 	
 	a_size = lstsize(a);
 	arr = get_arr(a, a_size);
-	for (size_t i = 0; i < a_size; ++i)
-		printf("%d ", arr[i]);
-	printf("\n");
 	sort_array(arr, a_size);
-	for (size_t i = 0; i < a_size; ++i)
-		printf("%d ", arr[i]);
-	printf("\n");
 	iter = 0;
 	while (iter < a_size - 1)
 	{

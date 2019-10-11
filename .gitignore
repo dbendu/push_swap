@@ -2,3 +2,7 @@
 a.out*
 .*
 libftprintf.a
+push_swap.d*
+checker.d*
+checker
+push_swap
