@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbendu <dbendu@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/12 15:06:09 by dbendu            #+#    #+#             */
+/*   Updated: 2019/10/12 15:12:13 by dbendu           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void	pre_sorting(t_stack **a, t_stack **b)
+void		pre_sorting(t_stack **a, t_stack **b)
 {
 	size_t	a_size;
 	int		*arr;
@@ -25,10 +37,10 @@ void	pre_sorting(t_stack **a, t_stack **b)
 	}
 }
 
-void	final_sort(t_stack **a)
+void		final_sort(t_stack **a)
 {
 	t_stack	*a_iter;
-	size_t	a_size;
+	int		a_size;
 	int		gap_pos;
 
 	if ((*a)->value < (*a)->tail->value)
@@ -49,7 +61,32 @@ void	final_sort(t_stack **a)
 	}
 }
 
-void	primary_sort(t_stack **a, t_stack **b)
+static int	is_sorted(t_stack *a, t_stack *b)
+{
+	t_stack	*a_iter;
+	int		is_gap;
+
+	if (b)
+		return (0);
+	is_gap = 0;
+	a_iter = a;
+	while (a_iter->next)
+	{
+		if (a_iter->value > a_iter->next->value)
+		{
+			if (is_gap)
+				return (0);
+			else
+				is_gap = 1;
+		}
+		a_iter = a_iter->next;
+	}
+	if (is_gap && a->value < a_iter->value)
+		return (0);
+	return (1);
+}
+
+void		primary_sort(t_stack **a, t_stack **b)
 {
 	int		v1;
 	int		v2;
@@ -57,12 +94,12 @@ void	primary_sort(t_stack **a, t_stack **b)
 	int		a_size;
 
 	a_size = lstsize(*a);
-	while (a_size > 3 && !ps_is_sorted(*a, NULL))
+	while (a_size > 3 && !is_sorted(*a, NULL))
 	{
 		push(b, a, "pb\n");
 		--a_size;
 	}
-	if (a_size < 3 || ps_is_sorted(*a, NULL))
+	if (a_size < 3 || is_sorted(*a, NULL))
 		return ;
 	v1 = (*a)->value;
 	v2 = (*a)->next->value;
@@ -74,12 +111,12 @@ void	primary_sort(t_stack **a, t_stack **b)
 	return ;
 }
 
-void	main_sort(t_stack **a, t_stack **b)
+void		main_sort(t_stack **a, t_stack **b)
 {
 	int spin_a;
 	int spin_b;
 
-	while (!ps_is_sorted(*a, *b))
+	while (!is_sorted(*a, *b))
 	{
 		find_best_spins(*a, *b, &spin_a, &spin_b);
 		while ((spin_a > 0 && spin_b > 0) || (spin_a < 0 && spin_b < 0))

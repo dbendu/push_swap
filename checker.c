@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbendu <dbendu@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/12 15:16:29 by dbendu            #+#    #+#             */
+/*   Updated: 2019/10/12 15:24:45 by dbendu           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 static int	sort(t_stack **a, t_stack **b)
 {
-	int is_cmd;
-	char *str;
+	int		is_cmd;
+	char	*str;
 
 	is_cmd = 0;
 	while (get_next_line(0, &str) == 1)
@@ -56,7 +68,7 @@ int			main(int argc, const char **argv)
 		return (0);
 	}
 	b = NULL;
-	if (printf("%d\n", sort(&a, &b)))
+	if (sort(&a, &b))
 		write(1, is_sorted(a, b) ? "OK\n" : "KO\n", 3);
 	else if (!is_sorted(a, b))
 		write(2, "Error\n", 6);
