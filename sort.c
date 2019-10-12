@@ -6,7 +6,7 @@
 /*   By: dbendu <dbendu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:06:09 by dbendu            #+#    #+#             */
-/*   Updated: 2019/10/12 15:12:13 by dbendu           ###   ########.fr       */
+/*   Updated: 2019/10/12 17:38:59 by dbendu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void		pre_sorting(t_stack **a, t_stack **b)
 		else
 			rotate(a, "ra\n");
 	}
+	free(arr);
 }
 
 void		final_sort(t_stack **a)
@@ -43,7 +44,7 @@ void		final_sort(t_stack **a)
 	int		a_size;
 	int		gap_pos;
 
-	if ((*a)->value < (*a)->tail->value)
+	if (!((*a)->next) || (*a)->value < (*a)->tail->value)
 		return ;
 	a_size = lstsize(*a);
 	a_iter = *a;

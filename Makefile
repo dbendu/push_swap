@@ -21,10 +21,11 @@ PS_OBJS =	$(PS_SRCS:.c=.o)
 all:
 	@clear
 	@make -C libft
-	@gcc -Wall -Werror -Wextra $(CHK_SRCS) -c
-	@gcc -Wall -Werror -Wextra $(CHK_SRCS) -Llibft -lft
+	@gcc -g -Wall -Werror -Wextra $(CHK_SRCS) -Ilibft/includes -c
+	@gcc -g -Wall -Werror -Wextra $(CHK_OBJS) -Ilibft/includes -Llibft -lft -o checker
 	@clear
-	@gcc -Wall -Werror -Wextra $(PS_SRCS) -Llibft -lft
+	@gcc -g -Wall -Werror -Wextra $(PS_SRCS) -Ilibft/includes -c
+	@gcc -g -Wall -Werror -Wextra $(PS_OBJS) -Ilibft/includes -Llibft -lft -o push_swap
 	@clear
 
 clean:
@@ -42,3 +43,8 @@ fclean: clean
 	@clear
 
 re: fclean all
+
+
+c: clear
+
+f: fclean

@@ -6,7 +6,7 @@
 /*   By: dbendu <dbendu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 14:40:40 by dbendu            #+#    #+#             */
-/*   Updated: 2019/10/12 15:10:27 by dbendu           ###   ########.fr       */
+/*   Updated: 2019/10/12 17:40:55 by dbendu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,15 @@ int		main(int argc, const char **argv)
 		{
 			a = get_stack(argv);
 			if (is_repeats(a))
-				error(2, "Error", 0);
-			sort(&a);
+				write(2, "Error\n", 6);
+			else
+			{
+				sort(&a);
+				lstpurge(&a);
+			}
 		}
 	}
 	else
-		error(2, "Error\n", 0);
+		write(2, "Error\n", 6);
 	return (0);
 }

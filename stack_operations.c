@@ -6,7 +6,7 @@
 /*   By: dbendu <dbendu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 14:41:43 by dbendu            #+#    #+#             */
-/*   Updated: 2019/10/12 14:41:45 by dbendu           ###   ########.fr       */
+/*   Updated: 2019/10/12 16:00:07 by dbendu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	lstpurge(t_stack **list)
 	t_stack	*iter;
 	t_stack	*temp;
 
+	if (!list || !*list)
+		return ;
 	iter = *list;
 	while (iter)
 	{

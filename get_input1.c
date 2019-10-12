@@ -6,7 +6,7 @@
 /*   By: dbendu <dbendu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:17:17 by dbendu            #+#    #+#             */
-/*   Updated: 2019/10/12 15:17:26 by dbendu           ###   ########.fr       */
+/*   Updated: 2019/10/12 15:50:54 by dbendu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ t_stack		*get_stack(const char **argv)
 		if (**argv)
 		{
 			lstpush(&stack, lstnew(ft_atoi(*argv)));
-			while (ft_isdigit(**argv))
+			while (ft_isdigit(**argv) ||
+					((**argv == '-' || **argv == '+') &&
+					(ft_isdigit((*argv)[1]))))
 				++*argv;
 		}
 		if (!**argv)

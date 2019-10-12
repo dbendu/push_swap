@@ -6,14 +6,18 @@
 /*   By: dbendu <dbendu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:18:23 by dbendu            #+#    #+#             */
-/*   Updated: 2019/10/12 15:29:09 by dbendu           ###   ########.fr       */
+/*   Updated: 2019/10/12 17:50:00 by dbendu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include "libft/includes/libft.h"
+# include "libft.h"
+
+# define INVALID_CMD	0
+# define NO_CMDS		1
+# define NORM			2
 
 typedef struct		s_stack
 {
